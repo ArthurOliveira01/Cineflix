@@ -1,7 +1,7 @@
 import styled from "styled-components"
 
 export default function SuccessPage() {
-
+    
     return (
         <PageContainer>
             <h1>Pedido feito <br /> com sucesso!</h1>
