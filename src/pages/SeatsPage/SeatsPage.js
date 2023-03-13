@@ -10,7 +10,8 @@ export default function SeatsPage() {
     const [nome, setNome] = useState("");
     const {idSessao} = useParams();
     const [cadeiras, setCadeiras] = useState([]);
-    const [color, setColor] = useState("#C3CFD9")
+    const [color, setColor] = useState("#C3CFD9");
+    const [servidor, setServidor] = useState([]);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -27,27 +28,32 @@ export default function SeatsPage() {
     
     function reservar(ato){
         ato.preventDefault();
-        const enviar = axios.post("https://mock-api.driven.com.br/api/v8/cineflex/seats/book-many", {name: nome, cpf: cpf, ids: cadeiras});
+        const enviar = axios.post("https://mock-api.driven.com.br/api/v8/cineflex/seats/book-many", {name: nome, cpf: cpf, ids: servidor});
         enviar.then(() => navigate("/sucesso"));
     }
 
-    const add = (item) =>{
+    const add = (item, id) =>{
         const y = [...cadeiras];
+        const w = [...servidor];
         y.push(item);
+        w.push(id);
         setCadeiras(y);
+        setServidor(w);
     }
 
-    const remove = (item) =>{
+    const remove = (item, id) =>{
         const x = cadeiras.filter((i) => i !== item);
+        const k = servidor.filter((t) => t !== id);
+        setServidor(k);
         setCadeiras(x);
     }
 
     function escolher(numero, id, ok){
         if(ok === true){
             if(cadeiras.indexOf(numero) === -1){
-                add(numero);
+                add(numero, id);
             } else{
-                remove(numero);
+                remove(numero, id);
             }
             
             
@@ -56,6 +62,7 @@ export default function SeatsPage() {
         }
 
         console.log(cadeiras);
+        console.log(servidor);
     }
     
 
