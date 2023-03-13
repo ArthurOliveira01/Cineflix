@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { Link, useParams, useNavigate, useLocation } from "react-router-dom";
 
-export default function SeatsPage({nome, setNome, cpf, setCPF, cadeiras, setCadeiras, url, setURL}) {
+export default function SeatsPage({nome, setNome, cpf, setCPF, cadeiras, setCadeiras, url, setURL, title, setTitle, hour, setHour}) {
 
     const [lugares, setLugares] = useState([]);
     const img = lugares?.movie?.posterURL;
@@ -13,9 +13,7 @@ export default function SeatsPage({nome, setNome, cpf, setCPF, cadeiras, setCade
     const {idSessao, data} = useParams();
     const [servidor, setServidor] = useState([]);
     const navigate = useNavigate();
-    let aux1;
-    let aux2;
-    let aux3;
+    setHour(time);
 
     useEffect(() => {
         const test = axios.get(`https://mock-api.driven.com.br/api/v8/cineflex/showtimes/${idSessao}/seats`);
@@ -38,7 +36,7 @@ export default function SeatsPage({nome, setNome, cpf, setCPF, cadeiras, setCade
                 alert("preencha os campos de cpf ou de nome");
             } else{
                 const enviar = axios.post("https://mock-api.driven.com.br/api/v8/cineflex/seats/book-many", {name: nome, cpf: cpf, ids: servidor});
-                
+                setTitle(fil);  
                 enviar.then(() => navigate("/sucesso"));
             }
         }
@@ -131,7 +129,7 @@ export default function SeatsPage({nome, setNome, cpf, setCPF, cadeiras, setCade
                 
                 <input data-test="client-cpf" required placeholder="Digite seu CPF..." onChange={e => setCPF(e.target.value)} />
 
-                <Link to={{pathname: "/sucesso", state: {img, aux3, time, fil, data, aux1, aux2}}} style={{ textDecoration: 'none'}}><button data-test="book-seat-btn" onClick={(booking)} type="submit">Reservar Assento(s)</button></Link>
+                <Link to="/sucesso" style={{ textDecoration: 'none'}}><button data-test="book-seat-btn" onClick={(booking)} type="submit">Reservar Assento(s)</button></Link>
             </FormContainer>
 
             <FooterContainer data-test="footer">

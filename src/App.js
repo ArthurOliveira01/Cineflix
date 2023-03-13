@@ -12,6 +12,9 @@ export default function App() {
     const [nome, setNome] = useState("");
     const [cadeiras, setCadeiras] = useState([]);
     const [url, setURL] = useState("")
+    const [title, setTitle] = useState("");
+    const [time, setTime] = useState("");
+    const [hour, setHour] = useState("");
 
     return (
         <>
@@ -19,7 +22,10 @@ export default function App() {
                <NavContainer>CINEFLEX</NavContainer>
                 <Routes>
                     <Route path="/" element={<HomePage />} />
-                    <Route path="/sessoes/:idFilme" element={<SessionsPage />} />
+                    <Route path="/sessoes/:idFilme" element={<SessionsPage 
+                    time = {time}
+                    setTime={setTime}
+                    />} />
                     <Route path="/assentos/:idSessao" element={<SeatsPage
                     nome={nome}
                     setNome={setNome}
@@ -29,6 +35,12 @@ export default function App() {
                     setCadeiras={setCadeiras}
                     url={url}
                     setURL={setURL}
+                    title={title}
+                    setTitle={setTitle}
+                    time = {time}
+                    setTime={setTime}
+                    setHour={setHour}
+                    hour={hour}
                     />} />
                     <Route path="/sucesso" element={<SuccessPage
                     nome={nome}
@@ -38,6 +50,12 @@ export default function App() {
                     cadeiras={cadeiras}
                     setCadeiras={setCadeiras}
                     url={url}
+                    title={title}
+                    setTitle={setTitle}
+                    time = {time}
+                    setTime={setTime}
+                    setHour={setHour}
+                    hour={hour}
                     />} />
                 </Routes>
            </BrowserRouter>

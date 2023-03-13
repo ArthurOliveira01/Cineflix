@@ -4,7 +4,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 
-export default function SessionsPage() {
+export default function SessionsPage(time, setTime) {
 
     const [date, setDate] = useState([]);
     const {idFilme} = useParams();
@@ -35,7 +35,7 @@ export default function SessionsPage() {
                                 {day.weekday} - {day.date}
                                 <ButtonsContainer key={date.id}>
                                     {day.showtimes.map((time) =>{
-                                        return(<Link key={time.id} to={{pathname: `/assentos/${time.id}`, state:{idSessao: time.id, data}}}><button date-test="showtime">{time.name}</button></Link>)
+                                        return(<Link key={time.id} to={{pathname: `/assentos/${time.id}`, state:{idSessao: time.id, data}}}><button onClick={() => setTime(data)} date-test="showtime">{time.name}</button></Link>)
                                     })}
                                 </ButtonsContainer>
                             </SessionContainer>

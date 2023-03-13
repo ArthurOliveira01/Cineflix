@@ -2,26 +2,25 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 
-export default function SuccessPage({nome, cpf, cadeiras}) {
+export default function SuccessPage({nome, cpf, cadeiras, title, setTitle, time, setTime, hour, setHour}) {
     const location = useLocation();
-    const {img, aux3, time, fil, data, aux1, aux2} = location.state || {};
     
     const name = `Nome: ${nome}`;
     const codes = `CPF: ${cpf}`;
-
+    console.log(`${time} 3`);
     //const data = `${} - ${}`
 
     return (
         <PageContainer>
             <h1>Pedido feito <br /> com sucesso!</h1>
 
-            <TextContainer>
+            <TextContainer data-test="seats-info">
                 <strong><p>Filme e sessão</p></strong>
-                <p>Tudo em todo lugar ao mesmo tempo</p>
-                <p>03/03/2023 - 14:00</p>
+                <p>{title}</p>
+                <p>{time} - {hour}</p>
             </TextContainer>
 
-            <TextContainer>
+            <TextContainer data-test="client-info">
                 <strong><p>Ingressos</p></strong>
                 {cadeiras?.map((item) => {
                     return(
