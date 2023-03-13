@@ -1,24 +1,51 @@
 import styled from "styled-components";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 
 export default function SeatsPage() {
 
     const [lugares, setLugares] = useState([]);
+    const [cpf, setCPF] = useState("");
+    const [nome, setNome] = useState("");
+    const {idSessao} = useParams();
+    const [cadeiras, setCadeiras] = ([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
-        const test = axios.get(`https://mock-api.driven.com.br/api/v8/cineflex/showtimes/${131}/seats`);
+        const test = axios.get(`https://mock-api.driven.com.br/api/v8/cineflex/showtimes/${idSessao}/seats`);
 
         test.then(final => {
             setLugares(final.data);
-            console.log(lugares);
         });
 
         test.catch(error =>{
             alert('Reload');
         });
     })
+    
+    function reservar(ato){
+        ato.preventDefault();
+        const enviar = axios.post("https://mock-api.driven.com.br/api/v8/cineflex/seats/book-many", {name: nome, cpf: cpf, ids: cadeiras});
+        enviar.then(() => navigate("/sucesso"));
+    }
+
+    function escolher(numero, id, ok){
+        if(ok === true){
+           
+        } else{
+            alert('Indisponível');
+        }
+    }
+    
+    function selectColor(state){
+        let border;
+        let color;
+        if(state === true){
+            color = "#000000";
+            border = "#808F9D";
+        }
+    }
 
     return (
         <PageContainer>
@@ -26,8 +53,18 @@ export default function SeatsPage() {
 
             <SeatsContainer>
                 {lugares.seats?.map((seat) =>{
+                    let border1;
+                    let color1;
+                    if(seat.isAvailable === true){
+                        color1 = "#C3CFD9";
+                        border1 = "#808F9D";
+                    } else{
+                        border1="#F7C52B";
+                        color1="#FBE192";
+                    }
+                    console.log(seat);
                     return(
-                        <SeatItem>{seat.name}</SeatItem>
+                        <SeatItem color={color1} border={border1} onClick={() => escolher(seat.name, seat.id, seat.isAvailable)} key={seat.id}>{seat.name}</SeatItem>
                     )
                 })}
             </SeatsContainer>
@@ -49,12 +86,13 @@ export default function SeatsPage() {
 
             <FormContainer>
                 Nome do Comprador:
-                <input placeholder="Digite seu nome..." />
+                <input required placeholder="Digite seu nome..." onChange={e => setNome(e.target.value)} />
 
                 CPF do Comprador:
-                <input placeholder="Digite seu CPF..." />
+                
+                <input required placeholder="Digite seu CPF..." onChange={e => setCPF(e.target.value)} />
 
-                <Link to="/sucesso" style={{ textDecoration: 'none'}}><button>Reservar Assento(s)</button></Link>
+                <Link to="/sucesso" style={{ textDecoration: 'none'}}><button onClick={() => reservar} type="submit">Reservar Assento(s)</button></Link>
             </FormContainer>
 
             <FooterContainer>
@@ -131,8 +169,8 @@ const CaptionItem = styled.div`
     font-size: 12px;
 `
 const SeatItem = styled.div`
-    border: 1px solid #808F9D;         // Essa cor deve mudar
-    background-color: #C3CFD9;    // Essa cor deve mudar
+    border: 1px solid ${props => props.border};         // Essa cor deve mudar
+    background-color: ${props => props.color};    // Essa cor deve mudar
     height: 25px;
     width: 25px;
     border-radius: 25px;

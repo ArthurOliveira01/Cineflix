@@ -13,7 +13,6 @@ export default function HomePage() {
 
         test.then(final => {
             setFilmes(final.data);
-            console.log(final);
         })
 
         test.catch(error => {
@@ -29,8 +28,8 @@ export default function HomePage() {
             <ListContainer>
                 {filmes.map((filme) =>{
                     return( 
-                    <Link to= {`/sessoes/${filme.id}`} >
-                        <MovieContainer>
+                    <Link key={filme.id} to= {{pathname: `/sessoes/${filme.id}`, state:{idFilme:filme.id}}} >
+                        <MovieContainer key={filme.id}>
                             <img src={filme.posterURL} alt={filme.overview}/>
                         </MovieContainer>
                     </Link>
