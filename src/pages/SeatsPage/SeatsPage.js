@@ -37,14 +37,25 @@ export default function SeatsPage() {
         setCadeiras(y);
     }
 
+    const remove = (item) =>{
+        const x = cadeiras.filter((i) => i !== item);
+        setCadeiras(x);
+    }
+
     function escolher(numero, id, ok){
         if(ok === true){
-            add(numero)
-            console.log(cadeiras);
+            if(cadeiras.indexOf(numero) === -1){
+                add(numero);
+            } else{
+                remove(numero);
+            }
+            
             
         }else{
             alert('Indisponível');
         }
+
+        console.log(cadeiras);
     }
     
 
@@ -57,8 +68,13 @@ export default function SeatsPage() {
                     let border1;
                     let color1;
                     if(seat.isAvailable === true){
-                        color1 = "#C3CFD9";
-                        border1 = "#808F9D";
+                        if(!cadeiras.includes(seat.name)){
+                            color1 = "#C3CFD9";
+                            border1 = "#808F9D";
+                        } else{
+                            border1 = "#0E7D71";
+                            color1 = "#1AAE9E";
+                        }
                     } else{
                         border1="#F7C52B";
                         color1="#FBE192";
