@@ -30,9 +30,9 @@ export default function SessionsPage() {
             <div>
             {date.days?.map((day) =>{
                     return(
-                            <SessionContainer>
+                            <SessionContainer dgitata-test="movie-day">
                                 {day.weekday} - {day.date}
-                                <ButtonsContainer data-test="movie-day" key={date.id}>
+                                <ButtonsContainer key={date.id}>
                                     {day.showtimes.map((time) =>{
                                         return(<Link key={time.id} to={{pathname: `/assentos/${time.id}`, state:{idSessao: time.id}}}><button date-test="showtime">{time.name}</button></Link>)
                                     })}
