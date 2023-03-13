@@ -38,14 +38,6 @@ export default function SeatsPage() {
         }
     }
     
-    function selectColor(state){
-        let border;
-        let color;
-        if(state === true){
-            color = "#000000";
-            border = "#808F9D";
-        }
-    }
 
     return (
         <PageContainer>
