@@ -4,8 +4,15 @@ import SeatsPage from "./pages/SeatsPage/SeatsPage"
 import SessionsPage from "./pages/SessionsPage/SessionsPage"
 import SuccessPage from "./pages/SuccessPage/SuccessPage"
 import {BrowserRouter, Routes, Route} from "react-router-dom"
+import { useState, useEffect } from "react";;
 
 export default function App() {
+
+    const [cpf, setCPF] = useState("");
+    const [nome, setNome] = useState("");
+    const [cadeiras, setCadeiras] = useState([]);
+    const [url, setURL] = useState("")
+
     return (
         <>
            <BrowserRouter>
@@ -13,8 +20,25 @@ export default function App() {
                 <Routes>
                     <Route path="/" element={<HomePage />} />
                     <Route path="/sessoes/:idFilme" element={<SessionsPage />} />
-                    <Route path="/assentos/:idSessao" element={<SeatsPage />} />
-                    <Route path="/sucesso" element={<SuccessPage />} />
+                    <Route path="/assentos/:idSessao" element={<SeatsPage
+                    nome={nome}
+                    setNome={setNome}
+                    cpf={cpf}
+                    setCPF={setCPF}
+                    cadeiras={cadeiras}
+                    setCadeiras={setCadeiras}
+                    url={url}
+                    setURL={setURL}
+                    />} />
+                    <Route path="/sucesso" element={<SuccessPage
+                    nome={nome}
+                    setNome={setNome}
+                    cpf={cpf}
+                    setCPF={setCPF} 
+                    cadeiras={cadeiras}
+                    setCadeiras={setCadeiras}
+                    url={url}
+                    />} />
                 </Routes>
            </BrowserRouter>
         </>

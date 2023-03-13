@@ -1,18 +1,21 @@
 import styled from "styled-components";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { Link, useParams, useNavigate } from "react-router-dom";
+import { Link, useParams, useNavigate, useLocation } from "react-router-dom";
 
-export default function SeatsPage() {
+export default function SeatsPage({nome, setNome, cpf, setCPF, cadeiras, setCadeiras, url, setURL}) {
 
     const [lugares, setLugares] = useState([]);
-    const [cpf, setCPF] = useState("");
-    const [nome, setNome] = useState("");
-    const {idSessao} = useParams();
-    const [cadeiras, setCadeiras] = useState([]);
-    const [color, setColor] = useState("#C3CFD9");
+    const img = lugares?.movie?.posterURL;
+    setURL(img);
+    const fil = lugares?.movie?.title;
+    const time = lugares?.name;
+    const {idSessao, data} = useParams();
     const [servidor, setServidor] = useState([]);
     const navigate = useNavigate();
+    let aux1;
+    let aux2;
+    let aux3;
 
     useEffect(() => {
         const test = axios.get(`https://mock-api.driven.com.br/api/v8/cineflex/showtimes/${idSessao}/seats`);
@@ -26,10 +29,22 @@ export default function SeatsPage() {
         });
     })
     
-    function reservar(ato){
+    function booking(ato){
         ato.preventDefault();
-        const enviar = axios.post("https://mock-api.driven.com.br/api/v8/cineflex/seats/book-many", {name: nome, cpf: cpf, ids: servidor});
-        enviar.then(() => navigate("/sucesso"));
+        if(cadeiras.length < 1){
+            alert("Selecione pelo menos uma cadeira");
+        } else{
+            if(cpf === "" || nome === ""){
+                alert("preencha os campos de cpf ou de nome");
+            } else{
+                const enviar = axios.post("https://mock-api.driven.com.br/api/v8/cineflex/seats/book-many", {name: nome, cpf: cpf, ids: servidor});
+                
+                enviar.then(() => navigate("/sucesso"));
+            }
+        }
+        console.log(nome);
+        console.log(cpf);
+        console.log(cadeiras);
     }
 
     const add = (item, id) =>{
@@ -60,9 +75,10 @@ export default function SeatsPage() {
         }else{
             alert('Indisponível');
         }
-
+        console.log(nome);
         console.log(cadeiras);
         console.log(servidor);
+        console.log(cpf);
     }
     
 
@@ -87,7 +103,7 @@ export default function SeatsPage() {
                         color1="#FBE192";
                     }
                     return(
-                        <SeatItem color={color1} border={border1} onClick={() => escolher(seat.name, seat.id, seat.isAvailable) } key={seat.id}>{seat.name}</SeatItem>
+                        <SeatItem data-test="seat" color={color1} border={border1} onClick={() => escolher(seat.name, seat.id, seat.isAvailable) } key={seat.id}>{seat.name}</SeatItem>
                     )
                 })}
             </SeatsContainer>
@@ -109,16 +125,16 @@ export default function SeatsPage() {
 
             <FormContainer>
                 Nome do Comprador:
-                <input required placeholder="Digite seu nome..." onChange={e => setNome(e.target.value)} />
+                <input data-test="client-name" required placeholder="Digite seu nome..." onChange={e => setNome(e.target.value)} />
 
                 CPF do Comprador:
                 
-                <input required placeholder="Digite seu CPF..." onChange={e => setCPF(e.target.value)} />
+                <input data-test="client-cpf" required placeholder="Digite seu CPF..." onChange={e => setCPF(e.target.value)} />
 
-                <Link to="/sucesso" style={{ textDecoration: 'none'}}><button onClick={(reservar)} type="submit">Reservar Assento(s)</button></Link>
+                <Link to={{pathname: "/sucesso", state: {img, aux3, time, fil, data, aux1, aux2}}} style={{ textDecoration: 'none'}}><button data-test="book-seat-btn" onClick={(booking)} type="submit">Reservar Assento(s)</button></Link>
             </FormContainer>
 
-            <FooterContainer>
+            <FooterContainer data-test="footer">
                 <div>
                     <img src={lugares?.movie?.posterURL} alt={lugares?.movie?.overview} />
                 </div>

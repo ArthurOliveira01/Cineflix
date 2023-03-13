@@ -1,9 +1,16 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import { useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
-export default function SuccessPage() {
+export default function SuccessPage({nome, cpf, cadeiras}) {
+    const location = useLocation();
+    const {img, aux3, time, fil, data, aux1, aux2} = location.state || {};
     
+    const name = `Nome: ${nome}`;
+    const codes = `CPF: ${cpf}`;
+
+    //const data = `${} - ${}`
+
     return (
         <PageContainer>
             <h1>Pedido feito <br /> com sucesso!</h1>
@@ -16,18 +23,20 @@ export default function SuccessPage() {
 
             <TextContainer>
                 <strong><p>Ingressos</p></strong>
-                <p>Assento 01</p>
-                <p>Assento 02</p>
-                <p>Assento 03</p>
+                {cadeiras?.map((item) => {
+                    return(
+                        <p>Assento {item}</p>
+                    )
+                })}
             </TextContainer>
 
             <TextContainer>
                 <strong><p>Comprador</p></strong>
-                <p>Nome: Letícia Chijo</p>
-                <p>CPF: 123.456.789-10</p>
+                <p>{name}</p>
+                <p>{codes} </p>
             </TextContainer>
 
-            <Link to="/"><button>Voltar para Home</button></Link>
+            <Link to="/"><button data-test="go-home-btn">Voltar para Home</button></Link>
         </PageContainer>
     )
 }

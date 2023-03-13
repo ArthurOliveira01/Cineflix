@@ -29,12 +29,13 @@ export default function SessionsPage() {
             Selecione o horário
             <div>
             {date.days?.map((day) =>{
+                const data = day.date;
                     return(
                             <SessionContainer dgitata-test="movie-day">
                                 {day.weekday} - {day.date}
                                 <ButtonsContainer key={date.id}>
                                     {day.showtimes.map((time) =>{
-                                        return(<Link key={time.id} to={{pathname: `/assentos/${time.id}`, state:{idSessao: time.id}}}><button date-test="showtime">{time.name}</button></Link>)
+                                        return(<Link key={time.id} to={{pathname: `/assentos/${time.id}`, state:{idSessao: time.id, data}}}><button date-test="showtime">{time.name}</button></Link>)
                                     })}
                                 </ButtonsContainer>
                             </SessionContainer>
