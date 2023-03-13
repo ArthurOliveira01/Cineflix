@@ -1,42 +1,50 @@
+import { useState, useEffect } from "react"
 import styled from "styled-components"
+import axios from "axios";
 
 export default function SessionsPage() {
+
+    const [date, setDate] = useState([]);
+
+    useEffect(() => {
+        const test = axios.get(`https://mock-api.driven.com.br/api/v8/cineflex/movies/${9}/showtimes`);
+
+        test.then(final => {
+            setDate(final.data);
+        })
+
+        test.catch(error => {
+            alert("Reload");
+        })
+
+    })
+
+    
 
     return (
         <PageContainer>
             Selecione o horário
             <div>
-                <SessionContainer>
-                    Sexta - 03/03/2023
-                    <ButtonsContainer>
-                        <button>14:00</button>
-                        <button>15:00</button>
-                    </ButtonsContainer>
-                </SessionContainer>
-
-                <SessionContainer>
-                    Sexta - 03/03/2023
-                    <ButtonsContainer>
-                        <button>14:00</button>
-                        <button>15:00</button>
-                    </ButtonsContainer>
-                </SessionContainer>
-
-                <SessionContainer>
-                    Sexta - 03/03/2023
-                    <ButtonsContainer>
-                        <button>14:00</button>
-                        <button>15:00</button>
-                    </ButtonsContainer>
-                </SessionContainer>
+            {date.days.map((day) =>{
+                    return(
+                        <SessionContainer>
+                            {day.weekday} - {day.date}
+                            <ButtonsContainer key={date.id}>
+                                {day.showtimes.map((time) =>{
+                                    return(<button>{time.name}</button>)
+                                })}
+                            </ButtonsContainer>
+                        </SessionContainer>
+                    )
+                })}
             </div>
 
             <FooterContainer>
                 <div>
-                    <img src={"https://br.web.img2.acsta.net/pictures/22/05/16/17/59/5165498.jpg"} alt="poster" />
+                    <img src={date.posterURL} alt="poster" />
                 </div>
                 <div>
-                    <p>Tudo em todo lugar ao mesmo tempo</p>
+                    <p>{date.title}</p>
                 </div>
             </FooterContainer>
 

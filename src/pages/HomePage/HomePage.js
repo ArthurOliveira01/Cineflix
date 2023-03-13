@@ -3,12 +3,7 @@ import axios from 'axios'
 import { useEffect, useState } from "react";
 
 export default function HomePage() {
-    function clique(){
-        const aux = axios.get("https://mock-api.driven.com.br/api/v8/cineflex/movies");
-        const aux2 = aux;
-        console.log(aux2);
-    }
-    const aux1 = axios.get("https://mock-api.driven.com.br/api/v8/cineflex/movies");
+ 
 
     const [filmes, setFilmes] = useState([]);
 
