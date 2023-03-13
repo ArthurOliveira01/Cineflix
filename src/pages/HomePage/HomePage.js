@@ -1,6 +1,7 @@
 import styled from "styled-components"
 import axios from 'axios'
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 export default function HomePage() {
  
@@ -12,12 +13,14 @@ export default function HomePage() {
 
         test.then(final => {
             setFilmes(final.data);
+            console.log(final);
         })
 
         test.catch(error => {
             alert("Reload");
         })
 
+    
     })
     return (
         <PageContainer>
@@ -26,9 +29,11 @@ export default function HomePage() {
             <ListContainer>
                 {filmes.map((filme) =>{
                     return( 
-                    <MovieContainer>
-                        <img src={filme.posterURL} alt={filme.overview}/>
-                    </MovieContainer>
+                    <Link to= {`/sessoes/${filme.id}`} >
+                        <MovieContainer>
+                            <img src={filme.posterURL} alt={filme.overview}/>
+                        </MovieContainer>
+                    </Link>
                     )
                 })}
             </ListContainer>

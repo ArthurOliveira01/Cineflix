@@ -1,6 +1,7 @@
-import styled from "styled-components"
-import { useState, useEffect } from "react"
-import axios from "axios"
+import styled from "styled-components";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { Link } from "react-router-dom";
 
 export default function SeatsPage() {
 
@@ -53,7 +54,7 @@ export default function SeatsPage() {
                 CPF do Comprador:
                 <input placeholder="Digite seu CPF..." />
 
-                <button>Reservar Assento(s)</button>
+                <Link to="/sucesso" style={{ textDecoration: 'none'}}><button>Reservar Assento(s)</button></Link>
             </FormContainer>
 
             <FooterContainer>

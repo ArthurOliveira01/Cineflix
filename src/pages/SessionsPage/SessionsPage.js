@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react"
 import styled from "styled-components"
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 export default function SessionsPage() {
 
@@ -27,14 +28,14 @@ export default function SessionsPage() {
             <div>
             {date.days?.map((day) =>{
                     return(
-                        <SessionContainer>
-                            {day.weekday} - {day.date}
-                            <ButtonsContainer key={date.id}>
-                                {day.showtimes.map((time) =>{
-                                    return(<button>{time.name}</button>)
-                                })}
-                            </ButtonsContainer>
-                        </SessionContainer>
+                            <SessionContainer>
+                                {day.weekday} - {day.date}
+                                <ButtonsContainer key={date.id}>
+                                    {day.showtimes.map((time) =>{
+                                        return(<Link to="/assentos/:idSessao"><button>{time.name}</button></Link>)
+                                    })}
+                                </ButtonsContainer>
+                            </SessionContainer>
                     )
                 })}
             </div>
