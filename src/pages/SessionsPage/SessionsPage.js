@@ -4,7 +4,7 @@ import axios from "axios";
 
 export default function SessionsPage() {
 
-    const [date, setDate] = useState([]);
+    const [date, setDate] = useState([null]);
 
     useEffect(() => {
         const test = axios.get(`https://mock-api.driven.com.br/api/v8/cineflex/movies/${9}/showtimes`);
@@ -25,7 +25,7 @@ export default function SessionsPage() {
         <PageContainer>
             Selecione o horário
             <div>
-            {date.days.map((day) =>{
+            {date.days?.map((day) =>{
                     return(
                         <SessionContainer>
                             {day.weekday} - {day.date}

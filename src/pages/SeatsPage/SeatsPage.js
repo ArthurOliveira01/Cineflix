@@ -1,30 +1,47 @@
 import styled from "styled-components"
+import { useState, useEffect } from "react"
+import axios from "axios"
 
 export default function SeatsPage() {
+
+    const [lugares, setLugares] = useState([]);
+
+    useEffect(() => {
+        const test = axios.get(`https://mock-api.driven.com.br/api/v8/cineflex/showtimes/${131}/seats`);
+
+        test.then(final => {
+            setLugares(final.data);
+            console.log(lugares);
+        });
+
+        test.catch(error =>{
+            alert('Reload');
+        });
+    })
 
     return (
         <PageContainer>
             Selecione o(s) assento(s)
 
             <SeatsContainer>
-                <SeatItem>01</SeatItem>
-                <SeatItem>02</SeatItem>
-                <SeatItem>03</SeatItem>
-                <SeatItem>04</SeatItem>
-                <SeatItem>05</SeatItem>
+                {lugares.seats?.map((seat) =>{
+                    return(
+                        <SeatItem>{seat.name}</SeatItem>
+                    )
+                })}
             </SeatsContainer>
 
             <CaptionContainer>
                 <CaptionItem>
-                    <CaptionCircle />
-                    Selecionado
+                    <CaptionCircle border="#0E7D71" color="#1AAE9E" />
+                    <p>Selecionado</p>
                 </CaptionItem>
                 <CaptionItem>
-                    <CaptionCircle />
+                    <CaptionCircle border="#7B8B99" color="#C3CFD9"/>
                     Disponível
                 </CaptionItem>
                 <CaptionItem>
-                    <CaptionCircle />
+                    <CaptionCircle border="#F7C52B" color="#FBE192"/>
                     Indisponível
                 </CaptionItem>
             </CaptionContainer>
@@ -41,11 +58,11 @@ export default function SeatsPage() {
 
             <FooterContainer>
                 <div>
-                    <img src={"https://br.web.img2.acsta.net/pictures/22/05/16/17/59/5165498.jpg"} alt="poster" />
+                    <img src={lugares?.movie?.posterURL} alt={lugares?.movie?.overview} />
                 </div>
                 <div>
-                    <p>Tudo em todo lugar ao mesmo tempo</p>
-                    <p>Sexta - 14h00</p>
+                    <p>{lugares?.movie?.title}</p>
+                    <p>{lugares?.day?.weekday} - {lugares?.name}</p>
                 </div>
             </FooterContainer>
 
@@ -96,8 +113,8 @@ const CaptionContainer = styled.div`
     margin: 20px;
 `
 const CaptionCircle = styled.div`
-    border: 1px solid blue;         // Essa cor deve mudar
-    background-color: lightblue;    // Essa cor deve mudar
+    border: 1px solid ${props => props.border};         // Essa cor deve mudar
+    background-color: ${props => props.color};    // Essa cor deve mudar
     height: 25px;
     width: 25px;
     border-radius: 25px;
@@ -113,8 +130,8 @@ const CaptionItem = styled.div`
     font-size: 12px;
 `
 const SeatItem = styled.div`
-    border: 1px solid blue;         // Essa cor deve mudar
-    background-color: lightblue;    // Essa cor deve mudar
+    border: 1px solid #808F9D;         // Essa cor deve mudar
+    background-color: #C3CFD9;    // Essa cor deve mudar
     height: 25px;
     width: 25px;
     border-radius: 25px;
