@@ -9,7 +9,8 @@ export default function SeatsPage() {
     const [cpf, setCPF] = useState("");
     const [nome, setNome] = useState("");
     const {idSessao} = useParams();
-    const [cadeiras, setCadeiras] = ([]);
+    const [cadeiras, setCadeiras] = useState([]);
+    const [color, setColor] = useState("#C3CFD9")
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -30,10 +31,18 @@ export default function SeatsPage() {
         enviar.then(() => navigate("/sucesso"));
     }
 
+    const add = (item) =>{
+        const y = [...cadeiras];
+        y.push(item);
+        setCadeiras(y);
+    }
+
     function escolher(numero, id, ok){
         if(ok === true){
-           
-        } else{
+            add(numero)
+            console.log(cadeiras);
+            
+        }else{
             alert('Indisponível');
         }
     }
@@ -54,9 +63,8 @@ export default function SeatsPage() {
                         border1="#F7C52B";
                         color1="#FBE192";
                     }
-                    console.log(seat);
                     return(
-                        <SeatItem color={color1} border={border1} onClick={() => escolher(seat.name, seat.id, seat.isAvailable)} key={seat.id}>{seat.name}</SeatItem>
+                        <SeatItem color={color1} border={border1} onClick={() => escolher(seat.name, seat.id, seat.isAvailable) } key={seat.id}>{seat.name}</SeatItem>
                     )
                 })}
             </SeatsContainer>
@@ -84,7 +92,7 @@ export default function SeatsPage() {
                 
                 <input required placeholder="Digite seu CPF..." onChange={e => setCPF(e.target.value)} />
 
-                <Link to="/sucesso" style={{ textDecoration: 'none'}}><button onClick={() => reservar} type="submit">Reservar Assento(s)</button></Link>
+                <Link to="/sucesso" style={{ textDecoration: 'none'}}><button onClick={(reservar)} type="submit">Reservar Assento(s)</button></Link>
             </FormContainer>
 
             <FooterContainer>

@@ -32,9 +32,9 @@ export default function SessionsPage() {
                     return(
                             <SessionContainer>
                                 {day.weekday} - {day.date}
-                                <ButtonsContainer key={date.id}>
+                                <ButtonsContainer data-test="movie-day" key={date.id}>
                                     {day.showtimes.map((time) =>{
-                                        return(<Link key={time.id} to={{pathname: `/assentos/${time.id}`, state:{idSessao: time.id}}}><button>{time.name}</button></Link>)
+                                        return(<Link key={time.id} to={{pathname: `/assentos/${time.id}`, state:{idSessao: time.id}}}><button date-test="showtime">{time.name}</button></Link>)
                                     })}
                                 </ButtonsContainer>
                             </SessionContainer>
@@ -42,7 +42,7 @@ export default function SessionsPage() {
                 })}
             </div>
 
-            <FooterContainer>
+            <FooterContainer data-test="footer">
                 <div>
                     <img src={date.posterURL} alt="poster" />
                 </div>
